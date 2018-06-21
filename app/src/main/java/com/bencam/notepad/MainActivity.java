@@ -1,17 +1,66 @@
 package com.bencam.notepad;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
+import android.app.LoaderManager;
+import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements LoaderManager.LoaderCallbacks<Cursor>
+{
+    private CursorAdapter cursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBOpenHelper helper = new DBOpenHelper(this);
-        SQLiteDatabase database = helper.getWritableDatabase();
+        insertNote("New note");
+
+        String[] from = {DBOpenHelper.NOTE_TEXT};
+        int[] to = {android.R.id.text1};
+        cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
+                null, from, to, 0);
+
+        ListView list = (ListView) findViewById(android.R.id.list);
+        list.setAdapter(cursorAdapter);
+
+        getLoaderManager().initLoader(0, null, this);
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(0,null, this);
+    }
+
+    private void insertNote(String noteText) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.NOTE_TEXT, noteText);
+        Uri noteUri = getContentResolver().insert(NotesProvide.CONTENT_URI, values);
+
+        Log.d("MainActivity", "Inserted note " + noteUri.getLastPathSegment());
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, NotesProvide.CONTENT_URI, null,
+                null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        cursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
     }
 }
