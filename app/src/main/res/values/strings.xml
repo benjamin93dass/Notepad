@@ -3,4 +3,6 @@
     <string name="delete_all_notes">Delete all notes</string>
     <string name="all_deleted">All deleted</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="edit_message">Edit</string>
+    <string name="button_send">Send</string>
 </resources>
