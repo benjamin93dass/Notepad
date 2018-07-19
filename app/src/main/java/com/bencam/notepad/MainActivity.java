@@ -32,8 +32,6 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        insertNote("New note");
-
         String[] from = {DBOpenHelper.NOTE_TEXT};
         int[] to = {R.id.tvNote};
         cursorAdapter = new SimpleCursorAdapter(this, R.layout.note_list_item,
@@ -96,6 +94,10 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         switch (id) {
             case R.id.action_delete_all:
                 deleteAllNotes();
+                break;
+            case R.id.action_main_new_note:
+                insertNote("New note");
+                restartLoader();
                 break;
         }
 

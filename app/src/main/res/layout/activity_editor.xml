@@ -4,19 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditorActivity">
+    tools:context=".EditorActivity"
+    android:label="@string/note">
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="376dp"
-        android:layout_height="502dp"
+        android:layout_width="0dp"
+        android:scrollHorizontally="false"
+        android:layout_height="fill_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@null"
         android:ems="10"
         android:gravity="top"
         android:inputType="textPersonName"
+        android:labelFor="@+id/Note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

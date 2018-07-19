@@ -23,6 +23,8 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        setTitle(getResources().getText(R.string.note));
+
         editor = findViewById(R.id.editText);
 
         Intent intent = getIntent();
